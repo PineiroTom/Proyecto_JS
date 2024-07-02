@@ -18,61 +18,27 @@ const objetoAlumno = {
     boletin: vectorBoletin,
 };
 
-// function leerNotas(notas){
-//     while (notas != 0){
-//         vectorNotas.push(notas);
-//         cantNotas ++;
-//         NotasTotales += notas;
-//         notas = Number(prompt("Ingrese la nota de una materia"));
-//     }
-// }
+function calcularPromedio(){
+    for (let i = 0; i < vectorBoletin.length; i++){
+        NotasTotales += parseFloat(vectorBoletin[i].notaMateria);
+        cantNotas ++;
+    }
+    cantNotas --; //arreglar luego en el codigo
+    notaPromedioFinal = (NotasTotales / cantNotas);
+    alert("La nota promedio final es " + notaPromedioFinal);
+};
 
-// function calcularPromedio(){
-//     let Alumno = prompt("ingrese el nombre de un alumno");
-//     if (Alumno != "Nadie"){
-//         objetoAlumno.nombre = Alumno;
-//         let notas = Number(prompt("Ingrese la nota de una materia"));
-//         leerNotas(notas);
-//     }
-//     objetoAlumno.notas = vectorNotas;
-// }
-
-function ingresarDatosBoletin (materia, nota){
-    objetoBoletin.nombreMateria = materia;
-    objetoBoletin.notaMateria = nota;
-}
-
-// function mostrarDatosBoletin (vectorBoletin,i){
-//     alert("Nombre de la materia: " + vectorBoletin[i].nombreMateria + " " + "Nota de la materia: " + vectorBoletin[i].notaMateria);
-// };
-
-// function recorrerBoletin (){
-//     for (let i = 0; i < vectorBoletin.length; i++){
-//         console.log("Nombre de la materia: " + vectorBoletin[i].nombreMateria + " " + "Nota de la materia: " + vectorBoletin[i].notaMateria);
-//     }; 
-// };
-
-// function recorrerBoletin() {
-//     for (let i = 0; i < vectorBoletin.length; i++) {
-//         alert(`Nombre de la materia: ${vectorBoletin[i].nombreMateria} - Nota: ${vectorBoletin[i].notaMateria}`);
-//     }
-// }
+function ordenarNotas (){
+    vectorBoletin.sort((a, b) => a.notaMateria - b.notaMateria);
+};
 
 function recorrerBoletin() {
     let mensaje = "";
     for (let i = 0; i < vectorBoletin.length; i++) {
-        mensaje += `Nombre de la materia: ${vectorBoletin[i].nombreMateria} - Nota: ${vectorBoletin[i].notaMateria}\n`;
+        mensaje += `para la materia: ${vectorBoletin[i].nombreMateria} - su nota es: ${vectorBoletin[i].notaMateria}\n`;
     }
-    alert(mensaje);
-}
-// llamada de funciones
-//calcularPromedio();
-
-// for (let i=0; i < vectorNotas.length; i++){
-//     console.log(objetoAlumno.notas[i]);
-// }
-
-// fin algoritmos y llamados 
+    alert("Para el alumno " + objetoAlumno.nombre + " las notas de sus materias son: " + mensaje);
+};
 
 const input01 = document.getElementById("floatingInputNombre");
 const input02 = document.getElementById("floatingInputMateria");
@@ -99,5 +65,11 @@ btnEnviar.addEventListener("click", () => {
 const btnTerminar = document.getElementById("btnTerminar");
 
 btnTerminar.addEventListener("click", () => {
-    recorrerBoletin();
+    if (input01.value === "" || input02.value === "" || input03.value === "Elegir la nota correspondiente"){
+        alert("Hay campos que no fueron ingresados");
+    }else{
+        ordenarNotas();
+        recorrerBoletin();
+        calcularPromedio();
+    }
 });
