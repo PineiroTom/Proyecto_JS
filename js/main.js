@@ -11,7 +11,7 @@ const objetoBoletin = {
     notaMateria: 0,
 };
 
-const vectorBoletin = [objetoBoletin];
+const vectorBoletin = [];
 
 const objetoAlumno = {
     nombre: "",
@@ -23,7 +23,6 @@ function calcularPromedio(){
         NotasTotales += parseFloat(vectorBoletin[i].notaMateria);
         cantNotas ++;
     }
-    cantNotas --; //arreglar luego en el codigo
     notaPromedioFinal = (NotasTotales / cantNotas);
     alert("La nota promedio final es " + notaPromedioFinal);
 };
@@ -32,13 +31,13 @@ function ordenarNotas (){
     vectorBoletin.sort((a, b) => a.notaMateria - b.notaMateria);
 };
 
-function recorrerBoletin() {
-    let mensaje = "";
-    for (let i = 0; i < vectorBoletin.length; i++) {
-        mensaje += `para la materia: ${vectorBoletin[i].nombreMateria} - su nota es: ${vectorBoletin[i].notaMateria}\n`;
-    }
-    alert("Para el alumno " + objetoAlumno.nombre + " las notas de sus materias son: " + mensaje);
-};
+// function recorrerBoletin() {
+//     let mensaje = "";
+//     for (let i = 0; i < vectorBoletin.length; i++) {
+//         mensaje += `para la materia: ${vectorBoletin[i].nombreMateria} - su nota es: ${vectorBoletin[i].notaMateria}\n`;
+//     }
+//     alert("Para el alumno " + objetoAlumno.nombre + " las notas de sus materias son: " + mensaje);
+// };
 
 const input01 = document.getElementById("floatingInputNombre");
 const input02 = document.getElementById("floatingInputMateria");
@@ -59,8 +58,13 @@ btnEnviar.addEventListener("click", () => {
             notaMateria: nota,
         };
         vectorBoletin.push(nuevoBoletin);
+        alert("Se agrego una nueva nota al boletin!");
     }
 });
+
+const guardarBol = (clave,valor) => {
+    sessionStorage.setItem(clave,valor);
+};
 
 const btnTerminar = document.getElementById("btnTerminar");
 
@@ -69,7 +73,29 @@ btnTerminar.addEventListener("click", () => {
         alert("Hay campos que no fueron ingresados");
     }else{
         ordenarNotas();
-        recorrerBoletin();
+        // recorrerBoletin();
         calcularPromedio();
+        guardarBol('boletin', JSON.stringify(objetoAlumno))
+        vectorBoletin.forEach(objetoBoletin => {
+            mostrarMaterias(objetoBoletin);
+        });
     }
 });
+
+const div = document.createElement('div');
+
+const mostrarMaterias = (objetoBoletin) =>{
+    const container = document.getElementById('task-list');
+
+    const div = document.createElement('div');
+
+    div.innerHTML =`
+        <div class= 'card text-center'>
+            <div class='card-body'>
+                <strong>Materia</strong>:${objetoBoletin.nombreMateria}; 
+                <strong>Nota</strong>:${objetoBoletin.notaMateria}
+            </div>
+        </div>`
+
+    container.appendChild(div);
+}
